@@ -18,11 +18,6 @@ function addDetails(){
   const mobile = document.querySelector('#mobile').value.trim();
   const password = document.querySelector('#password').value.trim();
 
-  // const detailsArray = [name, age, email, mob];
-
-  // for(let i=0; i<4; i++){
-  //   console.log(detailsArray[i]);
-  // }
   let errorMessage;
   if (!name) {
     errorMessage = "Field can't be empty";
@@ -38,6 +33,10 @@ function addDetails(){
     errorMessage = "Field can't be empty";
     document.querySelector("#error-age").innerHTML = errorMessage;
     return;
+  } else if(isNaN(age) || age<0 || age>150){
+    errorMessage = "Invalid Input";
+    document.querySelector("#error-age").innerHTML = errorMessage;
+    return;
   }
 
   if (!email) {
@@ -45,34 +44,40 @@ function addDetails(){
     document.querySelector("#error-email").innerHTML = errorMessage;
     return;
   }
-  if (!mobile) {
-    errorMessage = "Field can't be empty";
-    document.querySelector("#error-mobile").innerHTML = errorMessage;
-    return;
-  }
-  if (!password) {
-    errorMessage = "Field can't be empty";
+
+  if (!mobile || mobile.length!=10) {
+    if(!mobile)
+      errorMessage = "Field can't be empty";
+    else
+      errorMessage = "Number must be of length 10"
+
     document.querySelector("#error-mobile").innerHTML = errorMessage;
     return;
   }
 
-  document.getElementsByClassName("error").innerHTML = "";
+  if (!password) {
+    errorMessage = "Field can't be empty";
+    document.querySelector("#error-password").innerHTML = errorMessage;
+    return;
+  } else if(password.length<6){
+    errorMessage = "Password length must be greater than 5";
+    document.querySelector("#error-password").innerHTML = errorMessage;
+    return;
+  }
+
+  // document.getElementsByClassName("error").innerHTML = "";
+
 
   const table = document.querySelector('#table');
   const newRow = document.createElement('tr');
   table.appendChild(newRow);
 
-  const cell1 = newRow.insertCell(0);
-  const cell2 = newRow.insertCell(1);
-  const cell3 = newRow.insertCell(2);
-  const cell4 = newRow.insertCell(3);
-  const cell5 = newRow.insertCell(4);
+  const detailsArray = [name, age, email, mobile, password];
 
-  cell1.innerHTML = name;
-  cell2.innerHTML = age;
-  cell3.innerHTML = email;
-  cell4.innerHTML = mobile;
-  cell5.innerHTML = password;
+  for (let i = 0; i < 5; i++) {
+    const cell1 = newRow.insertCell(i);
+    cell1.innerHTML = detailsArray[i];
+  }
 
 }
 
