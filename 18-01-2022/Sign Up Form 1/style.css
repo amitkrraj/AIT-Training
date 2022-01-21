@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700&display=swap');
 
 *{
@@ -41,7 +42,7 @@ h1{
     text-align: center;
 }
 .form{
-    margin: 40px;
+    margin: 30px 40px;
     margin-bottom: 0;
 }
 .form-control{
@@ -113,12 +114,13 @@ table{
     border-collapse: collapse;
     border: 2px #000 solid;
     border-radius: 5px;
-    margin: 10px auto;
+    margin: 40px auto;
     background-color: rgba(255,255,255, 0.7);
     border-radius: 8px;
 }
 th{
-    border: 1px solid #000;
+    border: 2px solid #555;
+    border-radius: 5px;
     padding: 10px;
     color: darkblue;
     font-size: 1.1rem;

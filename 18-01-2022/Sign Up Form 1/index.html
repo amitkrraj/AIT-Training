@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="./style.css" />
     </head>
-    <body>
+    <body onload="init()">
         <div class="container">
             <div class="enter-data">
                 <div class="header">
@@ -38,7 +38,7 @@
                             <p>Error Message</p>
                         </div>
                         <div class="form-control">
-                            <label for="mobile">Mobile No</label>
+                            <label for="mobile">Mobile Number</label>
                             <input type="text" id="mobile" placeholder="1234567890" />
                             <!-- <i class="fa fa-check-circle"></i> -->
                             <i class="fa fa-exclamation-circle"></i>
@@ -61,8 +61,8 @@
                         <div class="btn">
                             <p>* All fields are mandatory *</p>
                             <hr/>
-                            <button type="reset" class="primary-btn" id="reset">Reset</button>
-                            <button type="button" class="primary-btn" id="save-data">Submit</button>
+                            <button type="reset" class="primary-btn" onclick="onFormReset()" id="reset">Reset</button>
+                            <button type="button" class="primary-btn" onclick="onFormSubmit()" id="submit">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -72,15 +72,19 @@
                 <div class="header">
                     <h1>Data Received</h1>
                 </div>
-                <table id="table">
+                <table id="storeData">
+                    <thead>
                         <tr>
                             <th>Name</th>
                             <th>Age</th>
                             <th>Email ID</th>
                             <th>Mobile Number</th>
-                            <th>Password</th>
                             <th>Modify Details</th>
                         </tr>
+                    </thead>
+                    <tbody id="tablerows">
+
+                    </tbody>
                 </table>
             </div>
         </div>

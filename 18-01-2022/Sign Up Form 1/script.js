@@ -1,3 +1,7 @@
+
+let selectedIndex = -1;
+let userArray = [];
+
 // Set Error
 function setErrorMsg(element, errorMessage) {
     const parent = element.parentElement;
@@ -15,49 +19,41 @@ function setSuccessMsg(element) {
 // Name Validation
 function validateName(name) {
     const nameVal = name.value.trim();
-    let errorMessage;
+    let errorMessage = '';
 
     if (!nameVal) {
         errorMessage = "This field is required";
-        setErrorMsg(name, errorMessage);
-        return false;
-    } else if (nameVal.length <= 2) {
-        errorMessage = "Length must be greater than or equal to 3 letters";
-        setErrorMsg(name, errorMessage);
-        return false;
-    } else if(!isNaN(nameVal)){
-        errorMessage = "Name must have at least an alphabet";
-        setErrorMsg(name, errorMessage);
-        return false;
-
-    }
-    else {
+    } else if (nameVal.length < 3) {
+        errorMessage = "Name cannot be less than 3 characters";
+    } else if (nameVal.length > 50) {
+        errorMessage = "Name cannot be more than 50 characters";
+    } else if (!isNaN(nameVal)) {
+        errorMessage = "Name must have at least a letter";
+    } else {
         setSuccessMsg(name);
+        return true;
     }
-    return true;
+    setErrorMsg(name, errorMessage);
+    return false;
 }
 
 // Age Validation
 function validateAge(age) {
     const ageVal = age.value.trim();
-    let errorMessage;
+    let errorMessage='';
 
     if (!ageVal) {
-        errorMessage = "Field can't be empty";
-        setErrorMsg(age, errorMessage);
-        return false;
+        errorMessage = "This field is required.";
     } else if (isNaN(ageVal)) {
         errorMessage = "Age must be a number";
-        setErrorMsg(age, errorMessage);
-        return false;
     } else if (ageVal <= 0 || ageVal >= 150) {
         errorMessage = "Age must be in between 0 and 150";
-        setErrorMsg(age, errorMessage);
-        return false;
     } else {
         setSuccessMsg(age);
+        return true;
     }
-    return true;
+    setErrorMsg(age, errorMessage);
+    return false;
 }
 
 // Email Validation
@@ -76,47 +72,39 @@ function isEmail(emailVal) {
 
 function validateEmail(email) {
     const emailVal = email.value.trim();
-    let errorMessage;
+    let errorMessage='';
 
     if (!emailVal) {
-        errorMessage = "Field can't be empty";
-        setErrorMsg(email, errorMessage);
-        return false;
+        errorMessage = "This field is required.";
     } else if (!emailVal.match("@")) {
         errorMessage = "@ is missing";
-        setErrorMsg(email, errorMessage);
-        return false;
     } else if (!isEmail(emailVal)) {
         errorMessage = "Not a valid email";
-        setErrorMsg(email, errorMessage);
-        return false;
     } else {
         setSuccessMsg(email);
+        return true;
     }
-    return true;
+    setErrorMsg(email, errorMessage);
+    return false;
 }
 
 // Mobile Number Validation
 function validateMobile(mobile) {
     const mobileVal = mobile.value.trim();
-    let errorMessage;
+    let errorMessage='';
 
     if (!mobileVal) {
-        errorMessage = "Field can't be empty";
-        setErrorMsg(mobile, errorMessage);
-        return false;
+        errorMessage = "This field is required.";
     } else if (isNaN(mobileVal)) {
         errorMessage = "Mobile number must be digits";
-        setErrorMsg(mobile, errorMessage);
-        return false;
     } else if (mobileVal.length != 10) {
         errorMessage = "Mobile number must be equal to 10 digits";
-        setErrorMsg(mobile, errorMessage);
-        return false;
     } else {
         setSuccessMsg(mobile);
+        return true;
     }
-    return true;
+    setErrorMsg(mobile, errorMessage);
+    return false;
 }
 
 // Password Validation
@@ -128,56 +116,47 @@ function validatePassword(password) {
     const numbers = /[0-9]/g;
     const specialCharacters = /[^a-zA-Z\d]/g;
 
-    let errorMessage;
+    let errorMessage='';
 
     if (!passwordVal) {
-        errorMessage = "Field can't be empty";
-        setErrorMsg(password, errorMessage);
-        return false;
-    } else if (passwordVal.length <6 || passwordVal.length>25) {
-        errorMessage = "Password length must be between 6 to 25";
-        setErrorMsg(password, errorMessage);
-        return false;
+        errorMessage = "This field is required";
+    } else if (passwordVal.length < 6) {
+        errorMessage = "Password cannot be less than 6 characters";
+    } else if (passwordVal.length > 15) {
+        errorMessage = "Password cannot be more than 15 characters";
     } else if (!passwordVal.match(lowerCaseLetters)) {
         errorMessage = "Password must contain a lower case";
-        setErrorMsg(password, errorMessage);
-        return false;
     } else if (!passwordVal.match(upperCaseLetters)) {
         errorMessage = "Password must contain an upper case";
-        setErrorMsg(password, errorMessage);
-        return false;
     } else if (!passwordVal.match(numbers)) {
         errorMessage = "Password must contain a number";
-        setErrorMsg(password, errorMessage);
-        return false;
     } else if (!passwordVal.match(specialCharacters)) {
         errorMessage = "Password must contain a special character";
-        setErrorMsg(password, errorMessage);
-        return false;
     } else {
         setSuccessMsg(password);
+        return true;
     }
-    return true;
+    setErrorMsg(password, errorMessage);
+    return false;
 }
 // Confirm Password
 function validateConfirmPassword(cnfpassword, password) {
     const cnfpasswordVal = cnfpassword.value.trim();
     const passwordVal = password.value.trim();
-    let errorMessage;
+    let errorMessage='';
 
     if (!cnfpasswordVal) {
-        errorMessage = "Field can't be empty";
-        setErrorMsg(cnfpassword, errorMessage);
-        return false;
+        errorMessage = "This field is required.";
     } else if (cnfpasswordVal != passwordVal) {
         errorMessage = "Password do not match";
-        setErrorMsg(cnfpassword, errorMessage);
-        return false;
     } else {
         setSuccessMsg(cnfpassword);
+        return true;
     }
-    return true;
+    setErrorMsg(cnfpassword, errorMessage);
+    return false;
 }
+
 // read from data
 function readFormData() {
     const name = document.querySelector("#name");
@@ -202,67 +181,89 @@ function readFormData() {
     // parent.className = "form-control error";
 }
 
-function insertNewRecord(formData) {
-
-  const table = document.querySelector("#table");
-  const newRow = document.createElement("tr");
-  table.appendChild(newRow);
-
-  for (let i = 0; i < 5; i++) {
-      const cell = newRow.insertCell(i);
-      cell.innerHTML = formData[i];
-  }
-  const cell = newRow.insertCell(5);
-  cell.innerHTML = `<button onClick='editData(this)'> Edit </button>
-                    <button onClick='deleteData(this)'> Delete </button>`;
-}
-
-let selectedRow = null;
-
 // edit the data
-function editData(td){
-  selectedRow = td.parentElement;
-  document.querySelector("#name").value = selectedRow.cells[0].innerHTML;
-  document.querySelector("#age").value = selectedRow.cells[1].innerHTML;
-  document.querySelector("#email").value = selectedRow.cells[2].innerHTML;
-  document.querySelector("#mobile").value = selectedRow.cells[3].innerHTML;
-  document.querySelector("#password").value = selectedRow.cells[4].innerHTML;
-  document.querySelector("#cpassword").value = selectedRow.cells[5].innerHTML;
-}
-
-// update record
-function updateData(formData) {
-
-  let i=0;
-  formData.forEach(data =>{
-    selectedRow.cells[i++].innerHTML = data;
-  });
+function editData(index){
+  let userObject = userArray[index];
+  document.querySelector("#name").value = userObject.name;
+  document.querySelector("#age").value = userObject.age;
+  document.querySelector("#email").value = userObject.email;
+  document.querySelector("#mobile").value = userObject.mobile;
+  document.querySelector("#password").value = userObject.password;
+  document.querySelector("#submit").innerHTML = 'update';
+  selectedIndex = index;
 }
 
 // delete data
-function deleteData(td) {
+function deleteData(index) {
   // if(confirm('Do you want to d'))
-  row = td.parentElement.parentElement;
-  document.getElementById("#table").deleteRow(row.rowIndex);
+  userArray.splice(index, 1);
+  localStorage.userRecord = JSON.stringify(userArray);
+  init();
+}
+
+// form reset
+function onFormReset(){
+    document.querySelector("#name").value = "";
+    document.querySelector("#age").value = "";
+    document.querySelector("#email").value = "";
+    document.querySelector("#mobile").value = "";
+    document.querySelector("#password").value = "";
+    document.querySelector("#cpassword").value = "";
+    document.querySelector("#submit").innerHTML = "submit";
+    selectedIndex = -1;
 }
 
 // insert data
 function onFormSubmit(){
   let formData = readFormData();
-
   if(!formData) return;
 
-  if(selectedRow===null){
-    insertNewRecord(formData);
-  } else{
-    updateData(formData);
+  let userObject = {name:formData[0], age:formData[1], email:formData[2], mobile:formData[3], password:formData[4]}
+
+  for(let i = 0; i < userArray.length; i++){
+      if(userArray[i].email === userObject.email){
+          alert("Email already exists.");
+          return;
+      }
   }
-  document.querySelector("#reset").click();
+
+  if(selectedIndex===-1){
+    userArray.push(userObject);
+  } else{
+    userArray.splice(selectedIndex, 1, userObject);
+  }
+  localStorage.userRecord = JSON.stringify(userArray);
+  init();
+  onFormReset();
 }
 
-const button = document.querySelector("#save-data");
-button.addEventListener("click", onFormSubmit);
+// show data in table
+function showData(data) {
+    const table = document.querySelector("#tablerows");
+    const newRow = table.insertRow();
 
+    for (let i = 0; i < data.length - 1; i++) {
+        const cell = newRow.insertCell(i);
+        cell.innerHTML = data[i];
+    }
+
+    let lastIndexOfData = data.length - 1;
+    const cell = newRow.insertCell(lastIndexOfData);
+    let index = data[lastIndexOfData];
+    cell.innerHTML = '<button onClick="editData('+index+')"> Edit </button><button onClick="deleteData('+index+')"> Delete </button>';
+}
+
+// init method to populate the table initially when an operation is performed
+function init(){
+    document.getElementById("tablerows").innerHTML = "";
+    if(localStorage.userRecord){
+        userArray = JSON.parse(localStorage.userRecord);
+        for(let i = 0; i < userArray.length; i++){
+            let dataFound=[userArray[i].name, userArray[i].age, userArray[i].email, userArray[i].mobile, i];
+            showData(dataFound);
+        }
+    }
+}
 document.addEventListener("keyup", function (event) {
     if (event.keyCode === 13 || event.which === 13) {
         event.preventDefault();
