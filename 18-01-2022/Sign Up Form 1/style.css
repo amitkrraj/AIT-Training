@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700&display=swap');
+
 *{
     padding:0;
     margin:0;
@@ -7,58 +9,106 @@ body{
     background-image: url(./bg0.jpg);
     background-size: cover;
     background-repeat: no-repeat;
-    overflow: hidden;
     font-family: sans-serif;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
 .container {
     width:80%;
-    margin: 50px auto;
+    margin: auto;
     display: flex;
+    justify-content: space-between;
 }
 .enter-data{
     width: 38%;
     background: rgba(255,255,255, 0.6);
-    padding: 20px;
-    margin: 10px;
-    text-align: center;
     border-radius: 10px;
 }
-.show-data{
-    width: 59%;
-    background: rgba(255,255,255, 0.4);
-    padding: 20px;
-    margin: 10px;
-    text-align: center;
-    border-radius: 10px;
+.header{
+    background-image: linear-gradient(to bottom right, crimson, yellow);
+    padding: 10px 0;
+    border-radius: 10px 10px 0 0;
 }
 h1{
     color: #00008b;
+    font-family: 'Roboto', sans-serif;
     font-size: 1.3rem;
-    font-weight: 800;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+}
+.form{
+    margin: 40px;
+    margin-bottom: 0;
+}
+.form-control{
     margin-bottom: 12px;
+    position: relative;
 }
-hr{
-    width: 60%;
-    margin: auto;
+.form-control label{
+    display: inline-block;
+    margin-bottom: 4px;
 }
-.sign-up form div{
-    margin: 20px 0;
-}
-input{
-    border-radius: 3px;
+.form-control input{
+    width: 100%;
+    display: block;
     border: 1px solid blue;
-    padding: 4px;
-    margin: 0 5px;
+    border-radius: 5px;
+    padding: 5px;
+    background: rgba(255,255,255, 0.9);
+    /* font-size: 19px; */
 }
-button{
-    padding: 4px 10px;
-    margin: 10px;
-    background-color: #00008b;
-    color: #fff;
-    font-size: 1.1rem;
-    border-radius: 6px;
+.form-control input:focus{
+    outline: 0;
+    border: 1px #555 solid;
+}
+.form-control.success input{
+    border-color: #2ecc71;
+}
+.form-control.error input{
+    border-color: #e74c21;
+}
+.form-control i{
+    position: absolute;
+    right: 8px;
+    top: 30px;
+    visibility: hidden;
+}
+.form-control.success i.fa-check-circle{
+    color: #2ecc71;
+    visibility: visible;
+}
+.form-control.error i.fa-exclamation-circle{
+    color: #e74c21;
+    visibility: visible;
+}
+.form-control p{
+    font-size: 14px;
+    color: #e74c21;
+    font-weight: 500;
+    left: 0;
+    visibility: hidden;
+    /* position: absolute; */
+    /* bottom: 0; */
+}
+.form-control.error p{
+    visibility: visible;
 }
 
+hr{
+    width: 100%;
+}
+.show-data{
+    width: 59%;
+    background: rgba(255,255,255, 0.6);
+    border-radius: 10px;
+}
+.show-data #table{
+    margin: 40px auto;
+}
 table{
     border-collapse: collapse;
     border: 2px #000 solid;
@@ -74,6 +124,31 @@ th{
     font-size: 1.1rem;
     font-family: Arial, Helvetica, sans-serif;
 }
+.btn{
+    text-align: center;
+}
+.btn p{
+    color: red;
+}
+button{
+    padding: 6px 20px;
+    margin: 15px;
+    background-image: linear-gradient(to bottom right, red, yellow);
+    color: darkblue;
+    font-size: 1.1rem;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+button:hover{
+    background-color: darkgreen;
+    transform: scale(1.03,1.03);
+    border: 1px solid #fff;
+}
 td{
     border: 1px solid #000;
     padding: 9px;
@@ -81,7 +156,4 @@ td{
     font-size: 1.2rem;
     font-family: serif;
 
-}
-.error{
-    color: crimson;
 }
