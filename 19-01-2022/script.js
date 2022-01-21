@@ -113,6 +113,10 @@ function validateMobile(mobile) {
         errorMessage = "Mobile number must be equal to 10 digits";
         setErrorMsg(mobile, errorMessage);
         return false;
+    } else if (mobileVal < 6000000000) {
+        errorMessage = "Not a valid number";
+        setErrorMsg(mobile, errorMessage);
+        return false;
     } else {
         setSuccessMsg(mobile);
     }
@@ -178,6 +182,8 @@ function validateConfirmPassword(cnfpassword, password) {
     }
     return true;
 }
+
+let selectedRow = null;
 // read from data
 function readFormData() {
     const name = document.querySelector("#name");
@@ -204,9 +210,8 @@ function readFormData() {
 
 function insertNewRecord(formData) {
 
-  const table = document.querySelector("#table");
-  const newRow = document.createElement("tr");
-  table.appendChild(newRow);
+  const table = document.querySelector("#storeData").getElementsByTagName('tbody')[0];
+  const newRow = table.insertRow(table.length);
 
   for (let i = 0; i < 5; i++) {
       const cell = newRow.insertCell(i);
@@ -217,17 +222,14 @@ function insertNewRecord(formData) {
                     <button onClick='deleteData(this)'> Delete </button>`;
 }
 
-let selectedRow = null;
-
 // edit the data
 function editData(td){
-  selectedRow = td.parentElement;
+  selectedRow = td.parentElement.parentElement;
   document.querySelector("#name").value = selectedRow.cells[0].innerHTML;
   document.querySelector("#age").value = selectedRow.cells[1].innerHTML;
   document.querySelector("#email").value = selectedRow.cells[2].innerHTML;
   document.querySelector("#mobile").value = selectedRow.cells[3].innerHTML;
   document.querySelector("#password").value = selectedRow.cells[4].innerHTML;
-  document.querySelector("#cpassword").value = selectedRow.cells[5].innerHTML;
 }
 
 // update record
@@ -235,15 +237,20 @@ function updateData(formData) {
 
   let i=0;
   formData.forEach(data =>{
-    selectedRow.cells[i++].innerHTML = data;
+
+    if(i<=4){
+        selectedRow.cells[i++].innerHTML = data;
+    }
   });
+//   document.querySelector("#reset").click();
+    selectedRow === null;
 }
 
 // delete data
 function deleteData(td) {
   // if(confirm('Do you want to d'))
   row = td.parentElement.parentElement;
-  document.getElementById("#table").deleteRow(row.rowIndex);
+  document.getElementById("#storeData").deleteRow(row.rowIndex);
 }
 
 // insert data
