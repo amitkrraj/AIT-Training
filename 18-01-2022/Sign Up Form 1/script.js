@@ -1,7 +1,4 @@
 
-let selectedIndex = -1;
-let userArray = [];
-
 // Set Error
 function setErrorMsg(element, errorMessage) {
     const parent = element.parentElement;
@@ -181,6 +178,11 @@ function readFormData() {
     // parent.className = "form-control error";
 }
 
+// Global declaration of variable
+let selectedIndex = null;
+let userArray = [];
+let editFlag = false;
+
 // edit the data
 function editData(index){
   let userObject = userArray[index];
@@ -191,6 +193,7 @@ function editData(index){
   document.querySelector("#password").value = userObject.password;
   document.querySelector("#submit").innerHTML = 'update';
   selectedIndex = index;
+  editFlag = true;
 }
 
 // delete data
@@ -210,7 +213,7 @@ function onFormReset(){
     document.querySelector("#password").value = "";
     document.querySelector("#cpassword").value = "";
     document.querySelector("#submit").innerHTML = "submit";
-    selectedIndex = -1;
+    selectedIndex = null;
 }
 
 // insert data
@@ -220,14 +223,16 @@ function onFormSubmit(){
 
   let userObject = {name:formData[0], age:formData[1], email:formData[2], mobile:formData[3], password:formData[4]}
 
-  for(let i = 0; i < userArray.length; i++){
-      if(userArray[i].email === userObject.email){
-          alert("Email already exists.");
-          return;
-      }
+  if(!editFlag){
+    for (let i = 0; i < userArray.length; i++) {
+        if (userArray[i].email === userObject.email) {
+            alert("Email already exists.");
+            return;
+        }
+    }
   }
 
-  if(selectedIndex===-1){
+  if(selectedIndex===null){
     userArray.push(userObject);
   } else{
     userArray.splice(selectedIndex, 1, userObject);
@@ -237,7 +242,7 @@ function onFormSubmit(){
   onFormReset();
 }
 
-// show data in table
+// show data in table on our page
 function showData(data) {
     const table = document.querySelector("#tablerows");
     const newRow = table.insertRow();
@@ -253,7 +258,7 @@ function showData(data) {
     cell.innerHTML = '<button onClick="editData('+index+')"> Edit </button><button onClick="deleteData('+index+')"> Delete </button>';
 }
 
-// init method to populate the table initially when an operation is performed
+// init method to populate the table when page reloads or an operation is performed
 function init(){
     document.getElementById("tablerows").innerHTML = "";
     if(localStorage.userRecord){
@@ -264,6 +269,8 @@ function init(){
         }
     }
 }
+
+// On Enter Key Press
 document.addEventListener("keyup", function (event) {
     if (event.keyCode === 13 || event.which === 13) {
         event.preventDefault();
