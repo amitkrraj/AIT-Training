@@ -137,9 +137,9 @@ function validatePassword(password) {
     return false;
 }
 // Confirm Password
-function validateConfirmPassword(cnfpassword, password) {
+function validateConfirmPassword(cnfpassword) {
     const cnfpasswordVal = cnfpassword.value.trim();
-    const passwordVal = password.value.trim();
+    const passwordVal = document.querySelector("#password").value.trim();
     let errorMessage='';
 
     if (!cnfpasswordVal) {
@@ -154,6 +154,34 @@ function validateConfirmPassword(cnfpassword, password) {
     return false;
 }
 
+// validate every data
+const isValidData = (currentData) => {
+
+    let valid = true;
+    let currentId = currentData.id;
+    switch (currentId) {
+        case "name":
+            valid = validateName(currentData);
+            break;
+        case "age":
+            valid = validateAge(currentData);
+            break;
+        case "email":
+            valid = validateEmail(currentData);
+            break;
+        case "mobile":
+            valid = validateMobile(currentData);
+            break;
+        case "password":
+            valid = validatePassword(currentData);
+            break;
+        case "cnfpassword":
+            valid = validateConfirmPassword(currentData);
+            break;
+    }
+    return valid;
+}
+
 // read from data
 function readFormData() {
     const name = document.querySelector("#name");
@@ -161,21 +189,18 @@ function readFormData() {
     const email = document.querySelector("#email");
     const mobile = document.querySelector("#mobile");
     const password = document.querySelector("#password");
-    const cnfpassword = document.querySelector("#cpassword");
+    const cnfpassword = document.querySelector("#cnfpassword");
 
-    if (!validateName(name)) return false;
-    if (!validateAge(age)) return false;
-    if (!validateEmail(email)) return false;
-    if (!validateMobile(mobile)) return false;
-    if (!validatePassword(password)) return false;
-    if (!validateConfirmPassword(cnfpassword, password)) return false;
+    const retrieveData = [name, age, email, mobile, password, cnfpassword];
+    const isDataCorrect = retrieveData.every(isValidData);
 
-    const storeDetails = [name.value, age.value, email.value, mobile.value, password.value];
-    return storeDetails;
+    if (!isDataCorrect) return false;
 
-    // formreset(storeDetails);
-    // const parent = document.getElementsByClassName('form-control success');
-    // parent.className = "form-control error";
+    const valueOfData = retrieveData.map((data) => {
+        return data.value.trim();
+    });
+
+    return valueOfData;
 }
 
 // Global declaration of variable
@@ -189,6 +214,7 @@ function editData(index){
   document.querySelector("#name").value = userObject.name;
   document.querySelector("#age").value = userObject.age;
   document.querySelector("#email").value = userObject.email;
+  document.querySelector("#email").disabled = true;
   document.querySelector("#mobile").value = userObject.mobile;
   document.querySelector("#password").value = userObject.password;
   document.querySelector("#submit").innerHTML = 'update';
@@ -209,9 +235,10 @@ function onFormReset(){
     document.querySelector("#name").value = "";
     document.querySelector("#age").value = "";
     document.querySelector("#email").value = "";
+    document.querySelector("#email").disabled = false;
     document.querySelector("#mobile").value = "";
     document.querySelector("#password").value = "";
-    document.querySelector("#cpassword").value = "";
+    document.querySelector("#cnfpassword").value = "";
     document.querySelector("#submit").innerHTML = "submit";
     selectedIndex = null;
 }
