@@ -2,15 +2,31 @@
 // set error for incorrect user input
 function setErrorMsg(element, errorMessage) {
     const parent = element.parentElement;
-    const err = parent.querySelector("p");
     parent.classList.add("error");
+    const err = parent.querySelector(".errorMessage");
     err.innerText = errorMessage;
+    err.style.visibility = 'visible';
 }
 
 // set success for correct user input
 function setSuccessMsg(element) {
     const parent = element.parentElement;
     parent.className = "form-control success";
+    const err = parent.querySelector(".errorMessage");
+    err.style.visibility = "hidden";
+}
+
+// reset style to table to the normal
+function resetTableStyle() {
+    const allInputFields = document.querySelectorAll("p.errorMessage");
+    allInputFields.forEach(input => {
+        input.style.visibility = "hidden";
+    });
+
+    const allInputDiv = document.querySelectorAll("div.form-control");
+    allInputDiv.forEach(div => {
+        div.className = "form-control";
+    });
 }
 
 // name validation
@@ -21,9 +37,9 @@ function validateName(name) {
     if (!nameVal) {
         errorMessage = "This field is required";
     } else if (nameVal.length < 3) {
-        errorMessage = "Name cannot be less than 3 characters";
+        errorMessage = "Name cannot have less than 3 characters";
     } else if (nameVal.length > 50) {
-        errorMessage = "Name cannot be more than 50 characters";
+        errorMessage = "Name cannot have more than 50 characters";
     } else if (!isNaN(nameVal)) {
         errorMessage = "Name must have at least a letter";
     } else {
@@ -97,6 +113,8 @@ function validateMobile(mobile) {
         errorMessage = "Mobile number should not be less than 10 digits";
     } else if (mobileVal.length > 10) {
         errorMessage = "Mobile number should not be greater than 10 digits";
+    } else if (mobileVal < 6000000000) {
+        errorMessage = "Mobile number must start with 6, 7, 8 or 9";
     } else {
         setSuccessMsg(mobile);
         return true;
@@ -212,6 +230,7 @@ let editFlag = false;
 
 // populate the table by retrieving local storage data
 function editData(index){
+  resetTableStyle();
   let userObject = userArray[index];
   document.querySelector("#name").value = userObject.name;
   document.querySelector("#age").value = userObject.age;
@@ -228,6 +247,10 @@ function editData(index){
 // remove data from the local storage at given index
 function deleteData(index) {
   // if(confirm('Do you want to d'))
+  if(editFlag){
+      alert("Please update your data first.");
+      return;
+  }
   userArray.splice(index, 1);
   localStorage.userRecord = JSON.stringify(userArray);
   init();
@@ -243,6 +266,8 @@ function onFormReset(){
     document.querySelector("#password").value = "";
     document.querySelector("#cnfpassword").value = "";
     document.querySelector("#submit").innerHTML = "submit";
+
+    resetTableStyle();
     selectedIndex = null;
     editFlag = false;
 }
@@ -276,15 +301,16 @@ function onFormSubmit(){
 // show data in the table
 function showData(data) {
     const table = document.querySelector("#tablerows");
-    const newRow = table.insertRow();
+    const newRow = table.insertRow(-1);
 
-    for (let i = 0; i < data.length - 1; i++) {
-        const cell = newRow.insertCell(i);
+    // running loop till third last element because second last element of data is password
+    for (let i = 0; i < data.length - 2; i++) {
+        const cell = newRow.insertCell(-1);
         cell.innerHTML = data[i];
     }
 
     let lastIndexOfData = data.length - 1;
-    const cell = newRow.insertCell(lastIndexOfData);
+    const cell = newRow.insertCell(-1);
     let index = data[lastIndexOfData];
     cell.innerHTML = '<button onClick="editData('+index+')"> Edit </button><button onClick="deleteData('+index+')"> Delete </button>';
 }
@@ -295,8 +321,12 @@ function init(){
     if(localStorage.userRecord){
         userArray = JSON.parse(localStorage.userRecord);
         for(let i = 0; i < userArray.length; i++){
-            let dataFound=[userArray[i].name, userArray[i].age, userArray[i].email, userArray[i].mobile, i];
-            showData(dataFound);
+            let data=[];
+            for (let j in userArray[i]){
+                data.push(userArray[i][j]);
+            }
+            data.push(i);
+            showData(data);
         }
     }
 }
