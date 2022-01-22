@@ -219,6 +219,7 @@ function editData(index){
   document.querySelector("#email").disabled = true;
   document.querySelector("#mobile").value = userObject.mobile;
   document.querySelector("#password").value = userObject.password;
+  document.querySelector("#cnfpassword").value = '';
   document.querySelector("#submit").innerHTML = 'update';
   selectedIndex = index;
   editFlag = true;
@@ -243,6 +244,7 @@ function onFormReset(){
     document.querySelector("#cnfpassword").value = "";
     document.querySelector("#submit").innerHTML = "submit";
     selectedIndex = null;
+    editFlag = false;
 }
 
 // insert data in the local storage
