@@ -1,5 +1,5 @@
 
-// Set Error
+// set error for incorrect user input
 function setErrorMsg(element, errorMessage) {
     const parent = element.parentElement;
     const err = parent.querySelector("p");
@@ -7,13 +7,13 @@ function setErrorMsg(element, errorMessage) {
     err.innerText = errorMessage;
 }
 
-// Set Success
+// set success for correct user input
 function setSuccessMsg(element) {
     const parent = element.parentElement;
     parent.className = "form-control success";
 }
 
-// Name Validation
+// name validation
 function validateName(name) {
     const nameVal = name.value.trim();
     let errorMessage = '';
@@ -34,7 +34,7 @@ function validateName(name) {
     return false;
 }
 
-// Age Validation
+// age validation
 function validateAge(age) {
     const ageVal = age.value.trim();
     let errorMessage='';
@@ -53,7 +53,7 @@ function validateAge(age) {
     return false;
 }
 
-// Email Validation
+// email validation
 function isEmail(emailVal) {
     const atSymbolFirst = emailVal.indexOf("@");
     const atSymbolLast = emailVal.lastIndexOf("@");
@@ -66,7 +66,6 @@ function isEmail(emailVal) {
 
     return true;
 }
-
 function validateEmail(email) {
     const emailVal = email.value.trim();
     let errorMessage='';
@@ -85,7 +84,7 @@ function validateEmail(email) {
     return false;
 }
 
-// Mobile Number Validation
+// mobile number validation
 function validateMobile(mobile) {
     const mobileVal = mobile.value.trim();
     let errorMessage='';
@@ -93,9 +92,11 @@ function validateMobile(mobile) {
     if (!mobileVal) {
         errorMessage = "This field is required.";
     } else if (isNaN(mobileVal)) {
-        errorMessage = "Mobile number must be digits";
-    } else if (mobileVal.length != 10) {
-        errorMessage = "Mobile number must be equal to 10 digits";
+        errorMessage = "Mobile number must be a number";
+    } else if (mobileVal.length < 10) {
+        errorMessage = "Mobile number should not be less than 10 digits";
+    } else if (mobileVal.length > 10) {
+        errorMessage = "Mobile number should not be greater than 10 digits";
     } else {
         setSuccessMsg(mobile);
         return true;
@@ -104,7 +105,7 @@ function validateMobile(mobile) {
     return false;
 }
 
-// Password Validation
+// password validation
 function validatePassword(password) {
     const passwordVal = password.value.trim();
 
@@ -136,7 +137,8 @@ function validatePassword(password) {
     setErrorMsg(password, errorMessage);
     return false;
 }
-// Confirm Password
+
+// validate confirm-password
 function validateConfirmPassword(cnfpassword) {
     const cnfpasswordVal = cnfpassword.value.trim();
     const passwordVal = document.querySelector("#password").value.trim();
@@ -154,7 +156,7 @@ function validateConfirmPassword(cnfpassword) {
     return false;
 }
 
-// validate every data
+// validate every user input data
 const isValidData = (currentData) => {
 
     let valid = true;
@@ -182,7 +184,7 @@ const isValidData = (currentData) => {
     return valid;
 }
 
-// read from data
+// read data from user input
 function readFormData() {
     const name = document.querySelector("#name");
     const age = document.querySelector("#age");
@@ -208,7 +210,7 @@ let selectedIndex = null;
 let userArray = [];
 let editFlag = false;
 
-// edit the data
+// populate the table by retrieving local storage data
 function editData(index){
   let userObject = userArray[index];
   document.querySelector("#name").value = userObject.name;
@@ -222,7 +224,7 @@ function editData(index){
   editFlag = true;
 }
 
-// delete data
+// remove data from the local storage at given index
 function deleteData(index) {
   // if(confirm('Do you want to d'))
   userArray.splice(index, 1);
@@ -230,7 +232,7 @@ function deleteData(index) {
   init();
 }
 
-// form reset
+// reset the sign up form
 function onFormReset(){
     document.querySelector("#name").value = "";
     document.querySelector("#age").value = "";
@@ -243,7 +245,7 @@ function onFormReset(){
     selectedIndex = null;
 }
 
-// insert data
+// insert data in the local storage
 function onFormSubmit(){
   let formData = readFormData();
   if(!formData) return;
@@ -269,7 +271,7 @@ function onFormSubmit(){
   onFormReset();
 }
 
-// show data in table on our page
+// show data in the table
 function showData(data) {
     const table = document.querySelector("#tablerows");
     const newRow = table.insertRow();
@@ -285,7 +287,7 @@ function showData(data) {
     cell.innerHTML = '<button onClick="editData('+index+')"> Edit </button><button onClick="deleteData('+index+')"> Delete </button>';
 }
 
-// init method to populate the table when page reloads or an operation is performed
+// populate the table when page reloads or an operation is performed
 function init(){
     document.getElementById("tablerows").innerHTML = "";
     if(localStorage.userRecord){
@@ -297,7 +299,7 @@ function init(){
     }
 }
 
-// On Enter Key Press
+// on Enter key press
 document.addEventListener("keyup", function (event) {
     if (event.keyCode === 13 || event.which === 13) {
         event.preventDefault();
