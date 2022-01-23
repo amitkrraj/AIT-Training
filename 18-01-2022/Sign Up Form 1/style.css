@@ -13,9 +13,12 @@
     --primary: #00008b;
     --secondary: #232B38;
     --ternary: #6C6C6C;
+    --light: #f2f2f0;
     --danger: #db1512;
     --pure: #FEFEFE;
     --alright: #2ecc71;
+    --gradient: linear-gradient(to bottom right, crimson, yellow);
+    --background: rgba(255,255,255, 0.6);
 }
 
 body{
@@ -37,11 +40,11 @@ body{
 }
 .enter-data{
     width: 33%;
-    background: rgba(255,255,255, 0.6);
+    background: var(--background);
     border-radius: 10px;
 }
 .header{
-    background-image: linear-gradient(to bottom right, crimson, yellow);
+    background-image: var(--gradient);
     padding: 10px 0;
     border-radius: 10px 10px 0 0;
 }
@@ -69,14 +72,15 @@ h1{
 .form-control input{
     width: 100%;
     display: block;
-    border: 1px solid var(--primary);
+    border: 1px solid var(--light);
     border-radius: 5px;
-    padding: 5px;
-    background: rgba(255,255,255, 0.9);
+    padding: 7px;
+    background: var(--light);
 }
 .form-control input:focus{
     outline: 0;
-    border: 1px solid var(--secondary);
+    border: 1px solid var(--ternary);
+    box-shadow: 0 0 3px 0.6px var(--primary);
 }
 .form-control.success input{
     border-color: var(--alright);
@@ -84,11 +88,18 @@ h1{
 .form-control.error input{
     border-color: var(--danger);
 }
+.form-control.error input:focus{
+    border-color: var(--primary);
+}
 .form-control i{
     position: absolute;
     right: 8px;
     top: 30px;
     visibility: hidden;
+}
+.form-control.success i.fa-check-circle{
+    color: var(--alright);
+    visibility: visible;
 }
 .form-control.error i.fa-exclamation-circle{
     color: var(--danger);
@@ -105,12 +116,13 @@ h1{
     visibility: visible;
 }
 
+/* horizontal line */
 hr{
     width: 100%;
 }
 .show-data{
     width: 60%;
-    background: rgba(255,255,255, 0.6);
+    background: var(--background);
     border-radius: 10px;
 }
 .show-data #table{
@@ -121,7 +133,8 @@ hr{
     border: 2px #000 solid;
     border-radius: 15px;
     margin: 40px auto;
-    background-color: rgba(255,255,255, 0.7);
+    /* background-color: rgba(255,255,255, 0.7); */
+    background-color: var(--light);
     border-radius: 8px;
     border-style: hidden;
     box-shadow: 0 0 0 1px var(--ternary);
@@ -143,7 +156,7 @@ th{
 button{
     padding: 3px 5px;
     margin: 2px 5px;
-    background-image: linear-gradient(to bottom right, red, yellow);
+    background-image: var(--gradient);
     color: var(--primary);
     font-family: 'Roboto', sans-serif;
     font-size: 0.8rem;
