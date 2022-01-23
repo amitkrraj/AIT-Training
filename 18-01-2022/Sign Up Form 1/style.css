@@ -80,7 +80,7 @@ h1{
 .form-control input:focus{
     outline: 0;
     border: 1px solid var(--ternary);
-    box-shadow: 0 0 3px 0.6px var(--primary);
+    box-shadow: 0 0 2px 0.4px var(--primary);
 }
 .form-control.success input{
     border-color: var(--alright);
@@ -88,7 +88,7 @@ h1{
 .form-control.error input{
     border-color: var(--danger);
 }
-.form-control.error input:focus{
+.form-control.success input:focus, .form-control.error input:focus{
     border-color: var(--primary);
 }
 .form-control i{
