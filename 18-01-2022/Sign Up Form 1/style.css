@@ -80,7 +80,7 @@ h1{
 .form-control input:focus{
     outline: 0;
     border: 1px solid var(--ternary);
-    box-shadow: 0 0 2px 0.4px var(--primary);
+    box-shadow: 0 0 1px 0.4px var(--primary);
 }
 .form-control.success input{
     border-color: var(--alright);
@@ -97,11 +97,11 @@ h1{
     top: 30px;
     visibility: hidden;
 }
-.form-control.success i.fa-check-circle{
+.form-control.success i.fa-check{
     color: var(--alright);
     visibility: visible;
 }
-.form-control.error i.fa-exclamation-circle{
+.form-control.error i.fa-exclamation-triangle{
     color: var(--danger);
     visibility: visible;
 }
@@ -124,28 +124,39 @@ hr{
     width: 60%;
     background: var(--background);
     border-radius: 10px;
+    position: relative;
 }
 .show-data #table{
     margin: 40px auto;
 }
-#storeData{
+table{
+    width: 90%;
     border-collapse: collapse;
     border: 2px #000 solid;
     border-radius: 15px;
     margin: 40px auto;
-    /* background-color: rgba(255,255,255, 0.7); */
-    background-color: var(--light);
+    /* background-color: var(--light); */
+    background-color: rgba(255,255,255, 0.7);
     border-radius: 8px;
     border-style: hidden;
     box-shadow: 0 0 0 1px var(--ternary);
+    position: relative;
 }
 th{
     border: 2px solid var(--ternary);
-    border-radius: 5px;
-    padding: 10px;
     color: var(--primary);
     font-size: 1.1rem;
     font-family: 'Roboto', sans-serif;
+}
+td{
+    border: 1px solid orange;
+    color: #020202;
+    font-size: 1.2rem;
+    font-family: serif;
+
+}
+th, td{
+    padding: 9px;
 }
 .btn{
     text-align: center;
@@ -180,12 +191,4 @@ button:hover{
 .primary-btn:hover{
     transform: scale(1.03,1.03);
     border: 1px solid var(--pure);
-}
-td{
-    border: 1px solid orange;
-    padding: 9px;
-    color: #020202;
-    font-size: 1.2rem;
-    font-family: serif;
-
 }
