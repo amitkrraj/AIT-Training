@@ -1,12 +1,27 @@
 
+// alert msg for already registered email id
+function alertEmailExits() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            alert("Email already exists.");
+            resolve();
+        }, 5);
+    });
+}
+
 // set error for incorrect user input
 function setErrorMsg(element, errorMessage) {
-    const parent = element.parentElement;
-    parent.className = "form-control error";
-    const err = parent.querySelector(".errorMessage");
-    err.innerText = errorMessage;
-    err.style.visibility = 'visible';
-    element.focus();
+    return new Promise ((resolve, reject) =>{
+        setTimeout(() => {
+            const parent = element.parentElement;
+            parent.className = "form-control error";
+            const err = parent.querySelector(".errorMessage");
+            err.innerText = errorMessage;
+            err.style.visibility = "visible";
+            element.focus();
+            resolve();
+        }, 1);
+    })
 }
 
 // set success for correct user input
@@ -54,7 +69,7 @@ function validateName(name) {
 // age validation
 function validateAge(age) {
     const ageVal = age.value.trim();
-    let errorMessage='';
+    let errorMessage = "";
 
     if (!ageVal) {
         errorMessage = "This field is required.";
@@ -85,7 +100,7 @@ function isEmail(emailVal) {
 }
 function validateEmail(email) {
     const emailVal = email.value.trim();
-    let errorMessage='';
+    let errorMessage = '';
 
     if (!emailVal) {
         errorMessage = "This field is required.";
@@ -104,7 +119,7 @@ function validateEmail(email) {
 // mobile number validation
 function validateMobile(mobile) {
     const mobileVal = mobile.value.trim();
-    let errorMessage='';
+    let errorMessage = '';
 
     if (!mobileVal) {
         errorMessage = "This field is required.";
@@ -126,14 +141,14 @@ function validateMobile(mobile) {
 
 // password validation
 function validatePassword(password) {
-    const passwordVal = password.value.trim();
 
     const lowerCaseLetters = /[a-z]/g;
     const upperCaseLetters = /[A-Z]/g;
     const numbers = /[0-9]/g;
     const specialCharacters = /[^a-zA-Z\d]/g;
 
-    let errorMessage='';
+    const passwordVal = password.value.trim();
+    let errorMessage = '';
 
     if (!passwordVal) {
         errorMessage = "This field is required";
@@ -161,7 +176,7 @@ function validatePassword(password) {
 function validateConfirmPassword(cnfpassword) {
     const cnfpasswordVal = cnfpassword.value.trim();
     const passwordVal = document.querySelector("#password").value.trim();
-    let errorMessage='';
+    let errorMessage = '';
 
     if (!cnfpasswordVal) {
         errorMessage = "This field is required.";
@@ -177,30 +192,31 @@ function validateConfirmPassword(cnfpassword) {
 
 // validate every user input data
 function validateInput(currentData){
-
-    let valid = true;
+    let isValid = true;
     const currentId = currentData.id;
     switch (currentId) {
         case "name":
-            valid = validateName(currentData);
+            isValid = validateName(currentData);
             break;
         case "age":
-            valid = validateAge(currentData);
+            isValid = validateAge(currentData);
             break;
         case "email":
-            valid = validateEmail(currentData);
+            isValid = validateEmail(currentData);
             break;
         case "mobile":
-            valid = validateMobile(currentData);
+            isValid = validateMobile(currentData);
             break;
         case "password":
-            valid = validatePassword(currentData);
+            isValid = validatePassword(currentData);
             break;
         case "cnfpassword":
-            valid = validateConfirmPassword(currentData);
+            isValid = validateConfirmPassword(currentData);
             break;
+        default:
+            setSuccessMsg(currentId);
     }
-    return valid;
+    return isValid;
 }
 
 // Global declaration of variable
@@ -210,17 +226,17 @@ let editFlag = false;
 
 // populate the table by retrieving user data from local storage
 function editData(index){
-  const userObject = userDataArray[index];
-  document.querySelectorAll("input").forEach(field =>{
-    field.value = userObject[field.id];
-  })
-  document.querySelector("#cnfpassword").value = '';
-  document.querySelector("#submit").innerHTML = 'update';
-  document.querySelector("#email").disabled = true;
+    const userObject = userDataArray[index];
+    document.querySelectorAll("input").forEach(field => {
+        field.value = userObject[field.id];
+    });
+    document.querySelector("#cnfpassword").value = "";
+    document.querySelector("#submit").innerHTML = "update";
+    document.querySelector("#email").disabled = true;
 
-  resetTableStyle();
-  selectedIndex = index;
-  editFlag = true;
+    resetTableStyle();
+    selectedIndex = index;
+    editFlag = true;
 }
 
 // remove data from the local storage at given index
@@ -253,38 +269,35 @@ function onFormReset(){
 
 // insert data in the local storage
 function onFormSubmit(){
-  const allInputs = document.querySelectorAll("input");
+    const allInputs = document.querySelectorAll("input");
+    if (!Array.from(allInputs).every(validateInput)) return; // validate all user input in the form
 
-  // validate all user input in the form
-  if (!Array.from(allInputs).every(validateInput)) return;
+    // retrieve value of each input and store it in an object
+    let userObject = {};
+    for (let i = 0; i < allInputs.length - 1; i++) {
+        userObject[allInputs[i].id] = allInputs[i].value;
+    }
 
-  // retrieve value of each input and store it in an object
-  let userObject = {};
-  for (let i = 0; i < allInputs.length-1; i++) {
-    userObject[allInputs[i].id] = allInputs[i].value;
-  }
-
-  // for new user registration, check its email id with already registered users
-  if(!editFlag){
-    for (let i = 0; i < userDataArray.length; i++) {
-        if (userDataArray[i].email === userObject.email) {
-            const email = document.getElementById('email');
-            setErrorMsg(email, 'Please enter a new email id');
-            alert("Email already exists.");
-            return;
+    // for new user registration, check its email id with already registered users
+    if (!editFlag) {
+        for (let i = 0; i < userDataArray.length; i++) {
+            if (userDataArray[i].email === userObject.email) {
+                const email = document.getElementById("email");
+                setErrorMsg(email, "Please enter a new email id").then(alertEmailExits);
+                return;
+            }
         }
     }
-  }
 
-  // putting user data in the local storage
-  if(selectedIndex===null){
-    userDataArray.push(userObject);
-  } else{
-    userDataArray.splice(selectedIndex, 1, userObject);
-  }
-  localStorage.userRecord = JSON.stringify(userDataArray);
-  init();
-  onFormReset();
+    // putting user data in the local storage
+    if (selectedIndex === null) {
+        userDataArray.push(userObject);
+    } else {
+        userDataArray.splice(selectedIndex, 1, userObject);
+    }
+    localStorage.userRecord = JSON.stringify(userDataArray);
+    init();
+    onFormReset();
 }
 
 // show data in the table
@@ -292,17 +305,17 @@ function showData(userData, index) {
     const table = document.querySelector("#tablerows");
     const newRow = table.insertRow(-1);
     let cell = newRow.insertCell(-1);
-    cell.innerHTML = index+1+'.';
+    cell.innerHTML = index + 1 + '.';
 
-    for (let property in userData) {
-        if(property==='password') continue; // to not show password in the table
+    for ( let property in userData) {
+        if( property === 'password') continue; // to not show password in the table
         cell = newRow.insertCell(-1);
         cell.innerHTML = userData[property];
     }
 
     // insert edit and delete buttons for each row of table
     cell = newRow.insertCell(-1);
-    cell.innerHTML = '<button onClick="editData('+index+')"> Edit </button> <button onClick="deleteData('+index +')"> Delete </button>';
+    cell.innerHTML = '<button onClick="editData('+index+')"> Edit </button> <button onClick="deleteData('+index+')"> Delete </button>';
 }
 
 // populate the table when page reloads or an operation is performed
