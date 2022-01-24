@@ -2,10 +2,11 @@
 // set error for incorrect user input
 function setErrorMsg(element, errorMessage) {
     const parent = element.parentElement;
-    parent.classList.add("error");
+    parent.className = "form-control error";
     const err = parent.querySelector(".errorMessage");
     err.innerText = errorMessage;
     err.style.visibility = 'visible';
+    element.focus();
 }
 
 // set success for correct user input
@@ -175,10 +176,10 @@ function validateConfirmPassword(cnfpassword) {
 }
 
 // validate every user input data
-const isValidData = (currentData) => {
+function validateInput(currentData){
 
     let valid = true;
-    let currentId = currentData.id;
+    const currentId = currentData.id;
     switch (currentId) {
         case "name":
             valid = validateName(currentData);
@@ -202,70 +203,48 @@ const isValidData = (currentData) => {
     return valid;
 }
 
-// read data from user input
-function readFormData() {
-    const name = document.querySelector("#name");
-    const age = document.querySelector("#age");
-    const email = document.querySelector("#email");
-    const mobile = document.querySelector("#mobile");
-    const password = document.querySelector("#password");
-    const cnfpassword = document.querySelector("#cnfpassword");
-
-    const retrieveData = [name, age, email, mobile, password, cnfpassword];
-    const isDataCorrect = retrieveData.every(isValidData);
-
-    if (!isDataCorrect) return false;
-
-    const valueOfData = retrieveData.map((data) => {
-        return data.value.trim();
-    });
-
-    return valueOfData;
-}
-
 // Global declaration of variable
 let selectedIndex = null;
-let userArray = [];
+let userDataArray = [];
 let editFlag = false;
 
-// populate the table by retrieving local storage data
+// populate the table by retrieving user data from local storage
 function editData(index){
-  resetTableStyle();
-  let userObject = userArray[index];
-  document.querySelector("#name").value = userObject.name;
-  document.querySelector("#age").value = userObject.age;
-  document.querySelector("#email").value = userObject.email;
-  document.querySelector("#email").disabled = true;
-  document.querySelector("#mobile").value = userObject.mobile;
-  document.querySelector("#password").value = userObject.password;
+  const userObject = userDataArray[index];
+  document.querySelectorAll("input").forEach(field =>{
+    field.value = userObject[field.id];
+  })
   document.querySelector("#cnfpassword").value = '';
   document.querySelector("#submit").innerHTML = 'update';
+  document.querySelector("#email").disabled = true;
+
+  resetTableStyle();
   selectedIndex = index;
   editFlag = true;
 }
 
 // remove data from the local storage at given index
 function deleteData(index) {
-  // if(confirm('Do you want to d'))
+
   if(editFlag){
       alert("Please update your data first.");
       return;
   }
-  userArray.splice(index, 1);
-  localStorage.userRecord = JSON.stringify(userArray);
-  init();
+  if(confirm('Do you want to delete this record?')){
+      userDataArray.splice(index, 1);
+      localStorage.userRecord = JSON.stringify(userDataArray);
+      init();
+  }
 }
 
 // reset the sign up form
 function onFormReset(){
-    document.querySelector("#name").value = "";
-    document.querySelector("#age").value = "";
-    document.querySelector("#email").value = "";
-    document.querySelector("#email").disabled = false;
-    document.querySelector("#mobile").value = "";
-    document.querySelector("#password").value = "";
-    document.querySelector("#cnfpassword").value = "";
+    document.querySelectorAll('input').forEach(inputTag => {
+        inputTag.value = '';
+    })
     document.querySelector("#submit").innerHTML = "submit";
+    document.querySelector("#email").disabled = false;
+    document.querySelector("#name").focus();
 
     resetTableStyle();
     selectedIndex = null;
@@ -274,60 +253,64 @@ function onFormReset(){
 
 // insert data in the local storage
 function onFormSubmit(){
-  let formData = readFormData();
-  if(!formData) return;
+  const allInputs = document.querySelectorAll("input");
 
-  let userObject = {name:formData[0], age:formData[1], email:formData[2], mobile:formData[3], password:formData[4]}
+  // validate all user input in the form
+  if (!Array.from(allInputs).every(validateInput)) return;
 
+  // retrieve value of each input and store it in an object
+  let userObject = {};
+  for (let i = 0; i < allInputs.length-1; i++) {
+    userObject[allInputs[i].id] = allInputs[i].value;
+  }
+
+  // for new user registration, check its email id with already registered users
   if(!editFlag){
-    for (let i = 0; i < userArray.length; i++) {
-        if (userArray[i].email === userObject.email) {
+    for (let i = 0; i < userDataArray.length; i++) {
+        if (userDataArray[i].email === userObject.email) {
+            const email = document.getElementById('email');
+            setErrorMsg(email, 'Please enter a new email id');
             alert("Email already exists.");
             return;
         }
     }
   }
 
+  // putting user data in the local storage
   if(selectedIndex===null){
-    userArray.push(userObject);
+    userDataArray.push(userObject);
   } else{
-    userArray.splice(selectedIndex, 1, userObject);
+    userDataArray.splice(selectedIndex, 1, userObject);
   }
-  localStorage.userRecord = JSON.stringify(userArray);
+  localStorage.userRecord = JSON.stringify(userDataArray);
   init();
   onFormReset();
 }
 
 // show data in the table
-function showData(data) {
+function showData(userData, index) {
     const table = document.querySelector("#tablerows");
     const newRow = table.insertRow(-1);
+    let cell = newRow.insertCell(-1);
+    cell.innerHTML = index+1+'.';
 
-    // running loop till third last element because second last element of data is password
-    for (let i = 0; i < data.length - 2; i++) {
-        const cell = newRow.insertCell(-1);
-        cell.innerHTML = data[i];
+    for (let property in userData) {
+        if(property==='password') continue; // to not show password in the table
+        cell = newRow.insertCell(-1);
+        cell.innerHTML = userData[property];
     }
 
-    let lastIndexOfData = data.length - 1;
-    const cell = newRow.insertCell(-1);
-    let index = data[lastIndexOfData];
-    cell.innerHTML = '<button onClick="editData('+index+')"> Edit </button><button onClick="deleteData('+index+')"> Delete </button>';
+    // insert edit and delete buttons for each row of table
+    cell = newRow.insertCell(-1);
+    cell.innerHTML = '<button onClick="editData('+index+')"> Edit </button> <button onClick="deleteData('+index +')"> Delete </button>';
 }
 
 // populate the table when page reloads or an operation is performed
 function init(){
     document.getElementById("tablerows").innerHTML = "";
     if(localStorage.userRecord){
-        userArray = JSON.parse(localStorage.userRecord);
-        for(let i = 0; i < userArray.length; i++){
-            let data=[];
-            for (let j in userArray[i]){
-                data.push(userArray[i][j]);
-            }
-            data.push(i);
-            showData(data);
-        }
+        userDataArray = JSON.parse(localStorage.userRecord);
+        userDataArray.forEach(showData);
     }
 }
 
