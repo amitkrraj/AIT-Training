@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Sign Up Form</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="./style.css" />
+    </head>
+    <body onload="init()">
+        <div class="container">
+            <div class="enter-data">
+                <div class="header">
+                    <h1>Sign Up Form</h1>
+                </div>
+                <div class="form">
+                    <form id="inputform">
+                        <div class="form-control">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" placeholder="Full Name"/>
+                            <i class="fa fa-check"></i>
+                            <i class="fa fa-exclamation-triangle"></i>
+                            <p class="errorMessage">Error Message</p>
+                        </div>
+                        <div class="form-control">
+                            <label for="age">Age</label>
+                            <input type="text" id="age" placeholder="Enter your age"/>
+                            <i class="fa fa-check"></i>
+                            <i class="fa fa-exclamation-triangle"></i>
+                            <p class="errorMessage">Error Message</p>
+                        </div>
+                        <div class="form-control">
+                            <label for="email">Email</label>
+                            <input type="text" id="email" placeholder="abc@investwell.com" />
+                            <i class="fa fa-check"></i>
+                            <i class="fa fa-exclamation-triangle"></i>
+                            <p class="errorMessage">Error Message</p>
+                        </div>
+                        <div class="form-control">
+                            <label for="mobile">Mobile Number</label>
+                            <input type="text" id="mobile" placeholder="9876543210" />
+                            <i class="fa fa-check"></i>
+                            <i class="fa fa-exclamation-triangle"></i>
+                            <p class="errorMessage">Error Message</p>
+                        </div>
+                        <div class="form-control">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" placeholder="Enter your password" />
+                            <i class="fa fa-check"></i>
+                            <i class="fa fa-exclamation-triangle"></i>
+                            <p class="errorMessage">Error Message</p>
+                        </div>
+                        <div class="form-control">
+                            <label for="cnfpassword">Confirm Password</label>
+                            <input type="password" id="cnfpassword" placeholder="Enter your password again" />
+                            <i class="fa fa-check"></i>
+                            <i class="fa fa-exclamation-triangle"></i>
+                            <p class="errorMessage">Error Message</p>
+                        </div>
+                        <div class="btn">
+                            <p>* All fields are mandatory *</p>
+                            <hr/>
+                            <button type="reset" class="primary-btn" onclick="onFormReset()" id="reset">Reset</button>
+                            <button type="button" class="primary-btn" onclick="onFormSubmit()" id="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="show-data">
+                <div class="header">
+                    <h1>Data Received</h1>
+                </div>
+                <table id="storeData">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Email ID</th>
+                            <th>Mobile Number</th>
+                            <th>Modify Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablerows">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <script src="./script.js"></script>
+    </body>
+</html>
