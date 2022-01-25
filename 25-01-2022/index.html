@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        Sign up form
+    </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+	<h1><center>Signup form</center></h1>
+	<hr>
+			<div class="employee-form">
+                <form onsubmit="event.preventDefault();onFormSubmit();" autocomplete="off">
+                    <div>
+                        <label>First Name</label><label class="validation-error hide" id="firstNameValidationError"></label>
+                        <input type="text" name="first name" id="firstName">
+                    </div>
+                    <div>
+                        <label>Second Name</label><label class="validation-error hide" id="secondNameValidationError"></label>
+                        <input type="text" name="second name" id="secondName">
+                    </div>
+                    <div>
+                        <label>Email Id</label><label class="validation-error hide" id="emailValidationError"></label>
+                        <input type="text" name="email" id="email">
+                    </div>
+                    <div>
+                        <label>Number</label><label class="validation-error hide" id="numberValidationError"></label>
+                        <input type="text" name="number" id="number">
+                    </div>
+
+                    <div>
+                        <label>Password</label><label class="validation-error hide" id="pswValidationError"></label>
+                        <input type="Password" name="password" id="psw">
+                    </div>
+                    <div>
+                        <label>Confirm Password</label>
+                        <input type="Password" name="confirm password" id="cnfpsw">
+                    </div>
+                    <div  class="form-action-buttons">
+                        <input type="submit" value="Submit">
+                    </div>
+                </form>
+		</div>
+		<br/>
+		<div class = "employees-table">
+                <table class="list" id="employeeList">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Second Name</th>
+                            <th>Email Id</th>
+                            <th>Number</th>
+
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablebody">
+
+                    </tbody>
+                </table>
+        </div>
+    <script src="script.js"></script>
+</body>
+</html>
