@@ -20,7 +20,7 @@ function setErrorMsg(element, errorMessage) {
             err.style.visibility = "visible";
             element.focus();
             resolve();
-        }, 1);
+        }, 0);
     })
 }
 
@@ -191,7 +191,7 @@ function validateConfirmPassword(cnfpassword) {
 }
 
 // validate every user input data
-function validateInput(currentData){
+function validateInput(currentData, extraValidation){
     let isValid = true;
     const currentId = currentData.id;
     switch (currentId) {
@@ -214,12 +214,16 @@ function validateInput(currentData){
             isValid = validateConfirmPassword(currentData);
             break;
         default:
-            setSuccessMsg(currentId);
+            if (typeof extraValidationFunction !== "function"){
+                setSuccessMsg(currentId);
+            } else {
+                isValid = extraValidation(currentData);
+            }
     }
     return isValid;
 }
 
-// Global declaration of variable
+// Global declaration of variables
 let selectedIndex = null;
 let userDataArray = [];
 let editFlag = false;
