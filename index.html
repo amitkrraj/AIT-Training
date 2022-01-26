@@ -8,61 +8,61 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="./style.css" />
     </head>
-    <body>
+    <body onload="init()">
         <div class="container">
             <div class="enter-data">
                 <div class="header">
                     <h1>Sign Up Form</h1>
                 </div>
                 <div class="form">
-                    <form>
+                    <form id="inputform">
                         <div class="form-control">
                             <label for="name">Name</label>
-                            <input type="text" id="name" placeholder="Full Name" />
-                            <!-- <i class="fa fa-check-circle"></i> -->
-                            <i class="fa fa-exclamation-circle"></i>
-                            <p>Error Message</p>
+                            <input type="text" id="name" placeholder="Full Name"/>
+                            <i class="fa fa-check"></i>
+                            <i class="fa fa-exclamation-triangle"></i>
+                            <p class="errorMessage">Error Message</p>
                         </div>
                         <div class="form-control">
                             <label for="age">Age</label>
-                            <input type="text" id="age" placeholder="Your age" />
-                            <!-- <i class="fa fa-check-circle"></i> -->
-                            <i class="fa fa-exclamation-circle"></i>
-                            <p>Error Message</p>
+                            <input type="text" id="age" placeholder="Enter your age"/>
+                            <i class="fa fa-check"></i>
+                            <i class="fa fa-exclamation-triangle"></i>
+                            <p class="errorMessage">Error Message</p>
                         </div>
                         <div class="form-control">
                             <label for="email">Email</label>
                             <input type="text" id="email" placeholder="abc@investwell.com" />
-                            <!-- <i class="fa fa-check-circle"></i> -->
-                            <i class="fa fa-exclamation-circle"></i>
-                            <p>Error Message</p>
+                            <i class="fa fa-check"></i>
+                            <i class="fa fa-exclamation-triangle"></i>
+                            <p class="errorMessage">Error Message</p>
                         </div>
                         <div class="form-control">
-                            <label for="mobile">Mobile No</label>
-                            <input type="text" id="mobile" placeholder="1234567890" />
-                            <!-- <i class="fa fa-check-circle"></i> -->
-                            <i class="fa fa-exclamation-circle"></i>
-                            <p>Error Message</p>
+                            <label for="mobile">Mobile Number</label>
+                            <input type="text" id="mobile" placeholder="9876543210" />
+                            <i class="fa fa-check"></i>
+                            <i class="fa fa-exclamation-triangle"></i>
+                            <p class="errorMessage">Error Message</p>
                         </div>
                         <div class="form-control">
                             <label for="password">Password</label>
                             <input type="password" id="password" placeholder="Enter your password" />
-                            <!-- <i class="fa fa-check-circle"></i> -->
-                            <i class="fa fa-exclamation-circle"></i>
-                            <p>Error Message</p>
+                            <i class="fa fa-check"></i>
+                            <i class="fa fa-exclamation-triangle"></i>
+                            <p class="errorMessage">Error Message</p>
                         </div>
                         <div class="form-control">
-                            <label for="cpassword">Confirm Password</label>
-                            <input type="password" id="cpassword" placeholder="Enter your password again" />
-                            <!-- <i class="fa fa-check-circle"></i> -->
-                            <i class="fa fa-exclamation-circle"></i>
-                            <p>Error Message</p>
+                            <label for="cnfpassword">Confirm Password</label>
+                            <input type="password" id="cnfpassword" placeholder="Enter your password again" />
+                            <i class="fa fa-check"></i>
+                            <i class="fa fa-exclamation-triangle"></i>
+                            <p class="errorMessage">Error Message</p>
                         </div>
                         <div class="btn">
-                            <p>* All fields are compulsory *</p>
+                            <p>* All fields are mandatory *</p>
                             <hr/>
-                            <button type="reset" class="primary-btn" id="reset">Reset</button>
-                            <button type="button" class="primary-btn" id="save-data">Submit</button>
+                            <button type="reset" class="primary-btn" onclick="onFormReset()" id="reset">Reset</button>
+                            <button type="button" class="primary-btn" onclick="onFormSubmit()" id="submit">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -75,15 +75,17 @@
                 <table id="storeData">
                     <thead>
                         <tr>
+                            <th>S.No.</th>
                             <th>Name</th>
                             <th>Age</th>
                             <th>Email ID</th>
                             <th>Mobile Number</th>
-                            <th>Password</th>
                             <th>Modify Details</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody id="tablerows">
+
+                    </tbody>
                 </table>
             </div>
         </div>
