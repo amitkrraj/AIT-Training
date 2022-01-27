@@ -23,20 +23,19 @@
 
 body{
     background-image: url(./bg0.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
     font-family: sans-serif;
     width: 100vw;
     height: 100vh;
+    display: flex;
     justify-content: center;
     align-items: center;
-    display: flex;
 }
 .container {
     width:90%;
     margin: auto;
     display: flex;
     justify-content: space-between;
+    flex-direction: row;
 }
 .enter-data{
     width: 33%;
@@ -190,4 +189,14 @@ button:hover{
 .primary-btn:hover{
     transform: scale(1.03,1.03);
     border: 1px solid var(--pure);
+}
+
+@media screen and (max-width: 780px) {
+    .container{
+        flex-direction: column;
+    }
+    .container .enter-data, .container .show-data{
+        width: 100%;
+        margin: 30px auto;
+    }
 }
