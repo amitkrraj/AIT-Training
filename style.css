@@ -1,27 +1,26 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700&display=swap");
 
 /* Reset  */
-*{
-    padding:0;
-    margin:0;
+* {
+    padding: 0;
+    margin: 0;
     box-sizing: border-box;
 }
 
 /* colors  */
 :root {
     --primary: #00008b;
-    --secondary: #232B38;
-    --ternary: #6C6C6C;
+    --secondary: #232b38;
+    --ternary: #6c6c6c;
     --light: #f2f2f0;
     --danger: #db1512;
-    --pure: #FEFEFE;
+    --pure: #fefefe;
     --alright: #2ecc71;
     --gradient: linear-gradient(to bottom right, crimson, yellow);
-    --background: rgba(255,255,255, 0.6);
+    --background: rgba(255, 255, 255, 0.6);
 }
 
-body{
+body {
     background-image: url(./bg0.jpg);
     font-family: sans-serif;
     width: 100vw;
@@ -31,44 +30,44 @@ body{
     align-items: center;
 }
 .container {
-    width:90%;
+    width: 90%;
     margin: auto;
     display: flex;
     justify-content: space-between;
     flex-direction: row;
 }
-.enter-data{
+.enter-data {
     width: 33%;
     background: var(--background);
     border-radius: 10px;
 }
-.header{
+.header {
     background-image: var(--gradient);
     padding: 10px 0;
     border-radius: 10px 10px 0 0;
 }
-h1{
+h1 {
     color: var(--primary);
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
     font-size: 1.3rem;
     font-weight: 700;
     letter-spacing: 1px;
     text-transform: uppercase;
     text-align: center;
 }
-.form{
+.form {
     margin: 30px 40px;
     margin-bottom: 0;
 }
-.form-control{
+.form-control {
     margin-bottom: 12px;
     position: relative;
 }
-.form-control label{
+.form-control label {
     display: inline-block;
     margin-bottom: 4px;
 }
-.form-control input{
+.form-control input {
     width: 100%;
     display: block;
     border: 1px solid var(--light);
@@ -76,98 +75,97 @@ h1{
     padding: 7px;
     background: var(--light);
 }
-.form-control input:focus{
+.form-control input:focus {
     outline: 0;
     border: 1px solid var(--ternary);
     box-shadow: 0 0 1px 0.4px var(--primary);
 }
-.form-control.success input{
+.form-control.success input {
     border-color: var(--alright);
 }
-.form-control.error input{
+.form-control.error input {
     border-color: var(--danger);
 }
-.form-control.success input:focus, .form-control.error input:focus{
+.form-control.success input:focus, .form-control.error input:focus {
     border-color: var(--primary);
 }
-.form-control i{
+.form-control i {
     position: absolute;
     right: 8px;
     top: 30px;
     visibility: hidden;
 }
-.form-control.success i.fa-check{
+.form-control.success i.fa-check {
     color: var(--alright);
     visibility: visible;
 }
-.form-control.error i.fa-exclamation-triangle{
+.form-control.error i.fa-exclamation-triangle {
     color: var(--danger);
     visibility: visible;
 }
-.form-control p{
+.form-control p {
     font-size: 15px;
     color: var(--danger);
     font-weight: 500;
     left: 0;
     visibility: hidden;
 }
-.form-control.error p{
+.form-control.error p {
     visibility: visible;
 }
 
 /* horizontal line */
-hr{
+hr {
     width: 100%;
 }
-.show-data{
+.show-data {
     width: 60%;
     background: var(--background);
     border-radius: 10px;
     position: relative;
 }
-.show-data #table{
+.show-data #table {
     margin: 40px auto;
 }
-table{
+table {
     width: 90%;
     border-collapse: collapse;
     border: 2px #000 solid;
     border-radius: 15px;
     margin: 40px auto;
-    background-color: rgba(255,255,255, 0.7);
+    background-color: rgba(255, 255, 255, 0.7);
     border-radius: 8px;
     border-style: hidden;
     box-shadow: 0 0 0 1px var(--ternary);
     position: relative;
 }
-th{
+th {
     border: 2px solid var(--ternary);
     color: var(--primary);
     font-size: 1.1rem;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
 }
-td{
+td {
     border: 1px solid orange;
     color: #020202;
     font-size: 1.2rem;
     font-family: serif;
-
 }
-th, td{
+th, td {
     padding: 9px;
 }
-.btn{
+.btn {
     text-align: center;
 }
-.btn p{
+.btn p {
     color: var(--danger);
 }
-button{
+button {
     padding: 3px 5px;
     margin: 2px 5px;
     background-image: var(--gradient);
     color: var(--primary);
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
     font-size: 0.8rem;
     font-weight: 500;
     text-transform: uppercase;
@@ -176,27 +174,41 @@ button{
     cursor: pointer;
     transition: all 0.3s ease;
 }
-button:hover{
+button:hover {
     color: var(--pure);
 }
-.primary-btn{
+.primary-btn {
     padding: 6px 20px;
     margin: 15px;
     font-size: 1.1rem;
     letter-spacing: 1px;
     border-radius: 6px;
 }
-.primary-btn:hover{
-    transform: scale(1.03,1.03);
+.primary-btn:hover {
+    transform: scale(1.03, 1.03);
     border: 1px solid var(--pure);
 }
 
 @media screen and (max-width: 780px) {
-    .container{
+    .container {
+        width: 100%;
         flex-direction: column;
     }
-    .container .enter-data, .container .show-data{
+    .container .enter-data, .container .show-data {
         width: 100%;
         margin: 30px auto;
+    }
+    table{
+        width: 99%;
+    }
+    th, td {
+        padding: 3px 1px;
+        font-size: 12px;
+    }
+    #tablerows button{
+        margin: 2px auto;
+        font-size: 10px;
+        text-transform: capitalize;
+        padding: 2px auto;
     }
 }
