@@ -124,13 +124,12 @@ function updateRecord(formData) {
 }
 
 function onDelete(td) {
-
     if (confirm('Are you sure to delete this record ?')) {
         row = td.parentElement.parentElement;
        // let index = faveGif.findIndex(id => id == "ewfewfew");
        var user_records=new Array();
        user_records=JSON.parse(localStorage.getItem("users"))?JSON.parse(localStorage.getItem("users")):[]
-       user_records.splice(row.rowIndex, 1);
+       user_records.splice(row.rowIndex-1, 1);
        localStorage.setItem('users',JSON.stringify(user_records));
         document.getElementById("users").deleteRow(row.rowIndex);
         resetForm();
