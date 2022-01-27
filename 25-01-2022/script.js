@@ -78,7 +78,7 @@ function insertNewRecord(data) {
 
 function showData()
 {
-  document.getElementsByTagName("tbody").innerHTML="";
+    document.getElementById("#tablebody").innerHTML = "";
   let user_records=new Array();
   user_records=JSON.parse(localStorage.getItem("users"))?JSON.parse(localStorage.getItem("users")):[]
   if(user_records)
@@ -131,9 +131,9 @@ function onDelete(td) {
        user_records=JSON.parse(localStorage.getItem("users"))?JSON.parse(localStorage.getItem("users")):[]
        user_records.splice(row.rowIndex-1, 1);
        localStorage.setItem('users',JSON.stringify(user_records));
-        document.getElementById("users").deleteRow(row.rowIndex);
-        resetForm();
     }
+    resetForm();
+    showData();
 }
 function validate() {
     isValid = true;
