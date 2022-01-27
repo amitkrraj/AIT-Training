@@ -1,4 +1,3 @@
-
 // alert msg for already registered email id
 function alertEmailExits() {
     return new Promise((resolve, reject) => {
@@ -11,7 +10,7 @@ function alertEmailExits() {
 
 // set error for incorrect user input
 function setErrorMsg(element, errorMessage) {
-    return new Promise ((resolve, reject) =>{
+    return new Promise((resolve, reject) => {
         setTimeout(() => {
             const parent = element.parentElement;
             parent.className = "form-control error";
@@ -21,7 +20,7 @@ function setErrorMsg(element, errorMessage) {
             element.focus();
             resolve();
         }, 0);
-    })
+    });
 }
 
 // set success for correct user input
@@ -48,7 +47,7 @@ function resetTableStyle() {
 // name validation
 function validateName(name) {
     const nameVal = name.value.trim();
-    let errorMessage = '';
+    let errorMessage = "";
 
     if (!nameVal) {
         errorMessage = "This field is required";
@@ -90,17 +89,22 @@ function isEmail(emailVal) {
     const atSymbolFirst = emailVal.indexOf("@");
     const atSymbolLast = emailVal.lastIndexOf("@");
 
-    if(!(atSymbolFirst === atSymbolLast)) return false;
+    if (!(atSymbolFirst === atSymbolLast)) return false;
     if (atSymbolLast === emailVal.length - 1) return false;
 
     const dot = emailVal.lastIndexOf(".");
-    if (dot === emailVal.length - 1 ||emailVal[dot + 1] === "." ||dot <= atSymbolLast + 3) return false;
+    if (
+        dot === emailVal.length - 1 ||
+        emailVal[dot + 1] === "." ||
+        dot <= atSymbolLast + 3
+    )
+        return false;
 
     return true;
 }
 function validateEmail(email) {
     const emailVal = email.value.trim();
-    let errorMessage = '';
+    let errorMessage = "";
 
     if (!emailVal) {
         errorMessage = "This field is required.";
@@ -119,7 +123,7 @@ function validateEmail(email) {
 // mobile number validation
 function validateMobile(mobile) {
     const mobileVal = mobile.value.trim();
-    let errorMessage = '';
+    let errorMessage = "";
 
     if (!mobileVal) {
         errorMessage = "This field is required.";
@@ -129,7 +133,7 @@ function validateMobile(mobile) {
         errorMessage = "Mobile number should not be less than 10 digits";
     } else if (mobileVal.length > 10) {
         errorMessage = "Mobile number should not be greater than 10 digits";
-    } else if (mobileVal < Math.pow(10,9)*6) {
+    } else if (mobileVal < Math.pow(10, 9) * 6) {
         errorMessage = "Mobile number must start with 6, 7, 8 or 9";
     } else {
         setSuccessMsg(mobile);
@@ -141,14 +145,13 @@ function validateMobile(mobile) {
 
 // password validation
 function validatePassword(password) {
-
     const lowerCaseLetters = /[a-z]/g;
     const upperCaseLetters = /[A-Z]/g;
     const numbers = /[0-9]/g;
     const specialCharacters = /[^a-zA-Z\d]/g;
 
     const passwordVal = password.value.trim();
-    let errorMessage = '';
+    let errorMessage = "";
 
     if (!passwordVal) {
         errorMessage = "This field is required";
@@ -176,7 +179,7 @@ function validatePassword(password) {
 function validateConfirmPassword(cnfpassword) {
     const cnfpasswordVal = cnfpassword.value.trim();
     const passwordVal = document.querySelector("#password").value.trim();
-    let errorMessage = '';
+    let errorMessage = "";
 
     if (!cnfpasswordVal) {
         errorMessage = "This field is required.";
@@ -191,7 +194,7 @@ function validateConfirmPassword(cnfpassword) {
 }
 
 // validate every user input data
-function validateInput(currentData, extraValidation){
+function validateInput(currentData, extraValidation) {
     let isValid = true;
     const currentId = currentData.id;
     switch (currentId) {
@@ -214,7 +217,7 @@ function validateInput(currentData, extraValidation){
             isValid = validateConfirmPassword(currentData);
             break;
         default:
-            if (typeof extraValidationFunction !== "function"){
+            if (typeof extraValidationFunction !== "function") {
                 setSuccessMsg(currentId);
             } else {
                 isValid = extraValidation(currentData);
@@ -224,13 +227,13 @@ function validateInput(currentData, extraValidation){
 }
 
 // Global declaration of variables
+let userNumber = 1;
 let selectedIndex = null;
-let userDataArray = [];
 let editFlag = false;
 
 // populate the table by retrieving user data from local storage
-function editData(index){
-    const userObject = userDataArray[index];
+function editData(index) {
+    const userObject = JSON.parse(localStorage.getItem(index));
     document.querySelectorAll("input").forEach(field => {
         field.value = userObject[field.id];
     });
@@ -245,34 +248,39 @@ function editData(index){
 
 // remove data from the local storage at given index
 function deleteData(index) {
-
-  if(editFlag){
-      alert("Please update your data first.");
-      return;
-  }
-  if(confirm('Do you want to delete this record?')){
-      userDataArray.splice(index, 1);
-      localStorage.userRecord = JSON.stringify(userDataArray);
-      init();
-  }
+    if (editFlag) {
+        alert("Please update your data first.");
+        return;
+    }
+    if (confirm("Do you want to delete this record?")) {
+        while (localStorage[++index]) {
+            console.log(localStorage[index]);
+            localStorage.setItem(index - 1 + "", localStorage[index]);
+        }
+        localStorage.removeItem(index - 1);
+        userNumber = 1;
+        init();
+    }
 }
 
 // reset the sign up form
-function onFormReset(){
-    document.querySelectorAll('input').forEach(inputTag => {
-        inputTag.value = '';
-    })
+function onFormReset() {
+    document.querySelectorAll("input").forEach(inputTag => {
+        inputTag.value = "";
+    });
     document.querySelector("#submit").innerHTML = "submit";
     document.querySelector("#email").disabled = false;
     document.querySelector("#name").focus();
 
-    resetTableStyle();
     selectedIndex = null;
     editFlag = false;
+    resetTableStyle();
+    userNumber = 1;
+    init();
 }
 
 // insert data in the local storage
-function onFormSubmit(){
+function onFormSubmit() {
     const allInputs = document.querySelectorAll("input");
     if (!Array.from(allInputs).every(validateInput)) return; // validate all user input in the form
 
@@ -284,10 +292,15 @@ function onFormSubmit(){
 
     // for new user registration, check its email id with already registered users
     if (!editFlag) {
-        for (let i = 0; i < userDataArray.length; i++) {
-            if (userDataArray[i].email === userObject.email) {
+        for (let i = 1; localStorage.getItem(i + ""); i++) {
+            if (
+                JSON.stringify(localStorage.getItem(i + "")).email ===
+                userObject.email
+            ) {
                 const email = document.getElementById("email");
-                setErrorMsg(email, "Please enter a new email id").then(alertEmailExits);
+                setErrorMsg(email, "Please enter a new email id").then(
+                    alertEmailExits
+                );
                 return;
             }
         }
@@ -295,39 +308,42 @@ function onFormSubmit(){
 
     // putting user data in the local storage
     if (selectedIndex === null) {
-        userDataArray.push(userObject);
+        localStorage.setItem(userNumber + "", JSON.stringify(userObject));
     } else {
-        userDataArray.splice(selectedIndex, 1, userObject);
+        localStorage.setItem(selectedIndex + "", JSON.stringify(userObject));
     }
-    localStorage.userRecord = JSON.stringify(userDataArray);
-    init();
     onFormReset();
 }
 
 // show data in the table
-function showData(userData, index) {
+function showData(userData, serialNum) {
     const table = document.querySelector("#tablerows");
     const newRow = table.insertRow(-1);
     let cell = newRow.insertCell(-1);
-    cell.innerHTML = index + 1 + '.';
+    cell.innerHTML = serialNum + ".";
 
-    for ( let property in userData) {
-        if( property === 'password') continue; // to not show password in the table
+    for (let property in userData) {
+        if (property === "password") continue; // to not show password in the table
         cell = newRow.insertCell(-1);
         cell.innerHTML = userData[property];
     }
 
     // insert edit and delete buttons for each row of table
     cell = newRow.insertCell(-1);
-    cell.innerHTML = '<button onClick="editData('+index+')"> Edit </button> <button onClick="deleteData('+index+')"> Delete </button>';
+    cell.innerHTML =
+        '<button onClick="editData(' +
+        serialNum +
+        ')"> Edit </button> <button onClick="deleteData(' +
+        serialNum +
+        ')"> Delete </button>';
 }
 
 // populate the table when page reloads or an operation is performed
-function init(){
+function init() {
     document.getElementById("tablerows").innerHTML = "";
-    if(localStorage.userRecord){
-        userDataArray = JSON.parse(localStorage.userRecord);
-        userDataArray.forEach(showData);
+    while (localStorage.getItem(userNumber + "")) {
+        showData(JSON.parse(localStorage[userNumber]), userNumber);
+        userNumber++;
     }
 }
 
