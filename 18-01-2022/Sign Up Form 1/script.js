@@ -224,13 +224,13 @@ function validateInput(currentData, extraValidation){
 }
 
 // Global declaration of variables
+let userNumber = 1;
 let selectedIndex = null;
-let userDataArray = [];
 let editFlag = false;
 
 // populate the table by retrieving user data from local storage
 function editData(index){
-    const userObject = userDataArray[index];
+    const userObject = JSON.parse(localStorage.getItem(index));
     document.querySelectorAll("input").forEach(field => {
         field.value = userObject[field.id];
     });
@@ -251,8 +251,12 @@ function deleteData(index) {
       return;
   }
   if(confirm('Do you want to delete this record?')){
-      userDataArray.splice(index, 1);
-      localStorage.userRecord = JSON.stringify(userDataArray);
+      while (localStorage[++index]) {
+          console.log(localStorage[index]);
+          localStorage.setItem(index-1 + "", localStorage[index]);
+      }
+      localStorage.removeItem(index-1);
+      userNumber = 1;
       init();
   }
 }
@@ -266,9 +270,11 @@ function onFormReset(){
     document.querySelector("#email").disabled = false;
     document.querySelector("#name").focus();
 
-    resetTableStyle();
     selectedIndex = null;
     editFlag = false;
+    resetTableStyle();
+    userNumber = 1;
+    init();
 }
 
 // insert data in the local storage
@@ -284,8 +290,8 @@ function onFormSubmit(){
 
     // for new user registration, check its email id with already registered users
     if (!editFlag) {
-        for (let i = 0; i < userDataArray.length; i++) {
-            if (userDataArray[i].email === userObject.email) {
+        for (let i = 1; localStorage.getItem(i + ""); i++) {
+            if (JSON.stringify(localStorage.getItem(i + "")).email === userObject.email) {
                 const email = document.getElementById("email");
                 setErrorMsg(email, "Please enter a new email id").then(alertEmailExits);
                 return;
@@ -295,21 +301,19 @@ function onFormSubmit(){
 
     // putting user data in the local storage
     if (selectedIndex === null) {
-        userDataArray.push(userObject);
+        localStorage.setItem(userNumber + "", JSON.stringify(userObject));
     } else {
-        userDataArray.splice(selectedIndex, 1, userObject);
+        localStorage.setItem(selectedIndex + "", JSON.stringify(userObject));
     }
-    localStorage.userRecord = JSON.stringify(userDataArray);
-    init();
     onFormReset();
 }
 
 // show data in the table
-function showData(userData, index) {
+function showData(userData, serialNum) {
     const table = document.querySelector("#tablerows");
     const newRow = table.insertRow(-1);
     let cell = newRow.insertCell(-1);
-    cell.innerHTML = index + 1 + '.';
+    cell.innerHTML = serialNum + ".";
 
     for ( let property in userData) {
         if( property === 'password') continue; // to not show password in the table
@@ -319,15 +323,15 @@ function showData(userData, index) {
 
     // insert edit and delete buttons for each row of table
     cell = newRow.insertCell(-1);
-    cell.innerHTML = '<button onClick="editData('+index+')"> Edit </button> <button onClick="deleteData('+index+')"> Delete </button>';
+    cell.innerHTML = '<button onClick="editData('+serialNum+')"> Edit </button> <button onClick="deleteData('+serialNum+')"> Delete </button>';
 }
 
 // populate the table when page reloads or an operation is performed
 function init(){
     document.getElementById("tablerows").innerHTML = "";
-    if(localStorage.userRecord){
-        userDataArray = JSON.parse(localStorage.userRecord);
-        userDataArray.forEach(showData);
+    while (localStorage.getItem(userNumber + "")) {
+        showData(JSON.parse(localStorage[userNumber]), userNumber);
+        userNumber++;
     }
 }
 
