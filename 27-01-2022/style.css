@@ -1,0 +1,63 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700&display=swap');
+
+/* Reset  */
+*{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+}
+
+/* colors  */
+:root {
+    --primary: #00008b;
+    --secondary: #232B38;
+    --ternary: #6C6C6C;
+    --light: #f2f2f0;
+    --danger: #db1512;
+    --pure: #FEFEFE;
+    --alright: #2ecc71;
+    --gradient: linear-gradient(to bottom right, crimson, yellow);
+    --background: rgba(255,255,255, 0.6);
+}
+
+body{
+    background-image: url(./bg0.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: sans-serif;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.container {
+    width:90%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+}
+.enter-data{
+    width: 33%;
+    background: var(--background);
+    border-radius: 10px;
+    text-align: center;
+    padding: 20px;
+}
+.enter-data input{
+    margin: 10px;
+    padding: 5px;
+    width: 80%;
+}
+.show-data{
+    width: 60%;
+    background: var(--background);
+    border-radius: 10px;
+    position: relative;
+    padding: 20px;
+}
+
+.show-data div{
+    margin: 20px;
+}
