@@ -1,0 +1,25 @@
+-----npm dev dependencies-----
+
+# install as devDependency
+npm install <package-name> --save-dev
+
+# install as normal dependency
+npm install <package-name> --save
+
+# install all devDependencies listed in package.json
+npm install --only=dev
+
+# install all normal dependencies listed in package.json
+npm install --only=prod
+# or if NODE_ENV is set to production
+npm install
+
+-----install all dependencies npm-----
+
+# from package.json dependancy list
+$ npm i
+
+
+how to install dependencies from package.json
+
+npm install // installs dependencies listed in package.json
