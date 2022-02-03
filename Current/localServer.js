@@ -41,7 +41,7 @@ app.get("/users/:id", (req, res) => {
 // delete a user
 app.delete("/users/:id", (req, res) => {
     let sql = `DELETE u, t FROM users u LEFT JOIN transactions t ON t.UserID = u.UserID WHERE u.UserID = ?`;
-    connection.query(sql, [req.params.id], (err, result, fields) => {
+    connection.query(sql, [req.params.id], (err, results) => {
         if (err) throw err;
         res.send("User successfully deleted");
     });

@@ -2,8 +2,6 @@ const mysql = require("mysql");
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
-// const db = require("./config/db.json");
-// const server = require("./constants/serverConstants.json");
 const port = 3000;
 
 app.use(bodyParser.json());
@@ -20,8 +18,6 @@ connection.connect(err => {
     if (err) throw err;
     console.log("Database connected");
 });
-
-// server.timeout = 0;
 
 app.listen(port, () => {
     console.log(`Sample App listening on port ${port}`);
