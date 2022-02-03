@@ -21,8 +21,6 @@ connection.connect(err => {
     console.log("Database connected");
 });
 
-// server.timeout = 0;
-
 app.listen(port, () => {
     console.log(`Sample App listening on port ${port}`);
 });
